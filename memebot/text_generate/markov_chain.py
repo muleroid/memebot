@@ -1,6 +1,9 @@
 from collections import defaultdict
-from memebot.text_generate.tokenizer import Tokenizer
 import random
+from typing import Any, Dict, List, Optional, Tuple
+
+from memebot.text_generate.tokenizer import Tokenizer
+
 
 class ProbabilityDistribution():
     """
@@ -11,11 +14,11 @@ class ProbabilityDistribution():
         self._distribution = defaultdict(int)
         self._total = 0
 
-    def add_word(self, word):
+    def add_word(self, word: Optional[str]) -> None:
         self._distribution[word] += 1
         self._total += 1
 
-    def get(self):
+    def get(self) -> Optional[str]:
         index = random.random() * self._total
         running = 0
 
@@ -24,16 +27,18 @@ class ProbabilityDistribution():
             if running >= index:
                 return word
 
+        return None
+
 class MarkovChain():
     """
     Can this even be called a markov chain?
     """
-    def __init__(self, n=1):
-        self.token_map = defaultdict(ProbabilityDistribution)
-        self.start_token_map = defaultdict(ProbabilityDistribution)
+    def __init__(self, n: int=1):
+        self.token_map = defaultdict(ProbabilityDistribution)  # type: Dict[Any, ProbabilityDistribution]
+        self.start_token_map = defaultdict(ProbabilityDistribution)  # type: Dict[int, ProbabilityDistribution]
         self.order = n
 
-    def parse_string(self, s):
+    def parse_string(self, s: str) -> None:
         tokenizer = Tokenizer(self.order, s)
         results = tokenizer.generate_tokens()
         for tokens, word in results:
@@ -45,7 +50,7 @@ class MarkovChain():
             distribution = self.start_token_map[i]
             distribution.add_word(tokenizer.words[i])
 
-    def generate_tweet(self):
+    def generate_tweet(self) -> str:
         words = self._get_start_tokens()
         cur_len = 0
         for word in words:
@@ -63,7 +68,7 @@ class MarkovChain():
             i += 1
         return ' '.join(words)
 
-    def _get_next_word(self, tokens):
+    def _get_next_word(self, tokens: Tuple) -> Optional[str]:
         """
         Given tokens, returns the next word given
         the weighted distribution of the current state
@@ -73,7 +78,7 @@ class MarkovChain():
         distribution = self.token_map[tokens]
         return distribution.get()
 
-    def _get_start_tokens(self):
+    def _get_start_tokens(self) -> List:
         words = []
         for i in range(self.order):
             words.append(self.start_token_map[i].get())
