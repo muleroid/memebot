@@ -30,6 +30,7 @@ class MarkovChain():
 	"""
 	def __init__(self, n=1):
 		self.token_map = defaultdict(ProbabilityDistribution)
+		self.start_token_map = defaultdict(ProbabilityDistribution)
 		self.order = n
 
 	def parse_string(self, s):
@@ -38,6 +39,11 @@ class MarkovChain():
 		for tokens, word in results:
 			distribution = self.token_map[tokens]
 			distribution.add_word(word)
+
+		# fill in starter words
+		for i in range(self.order):
+			distribution = self.start_token_map[i]
+			distribution.add_word(tokenizer.words[i])
 
 	def get_next_word(self, tokens):
 		"""
@@ -48,3 +54,10 @@ class MarkovChain():
 			raise ValueError('Input tokens must be same order as Markov Chain')
 		distribution = self.token_map[tokens]
 		return distribution.get()
+
+	def get_start_phrase(self):
+		words = []
+		for i in range(self.order):
+			words.append(self.start_token_map[i].get())
+
+		return ' '.join(words)
