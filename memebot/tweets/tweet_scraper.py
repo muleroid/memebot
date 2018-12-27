@@ -1,4 +1,4 @@
-from tweets.tweet_helper import TweetHelper
+from memebot.tweets.tweet_helper import TweetHelper
 
 class TweetScraper():
     def __init__(self, tweet_helper):

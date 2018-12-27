@@ -1,4 +1,4 @@
-from text_generate.markov_chain import MarkovChain
+from memebot.text_generate.markov_chain import MarkovChain
 
 
 SECRET_SAUCE = ['dril', 'sosadtoday', 'PakaluPapitio']

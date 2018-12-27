@@ -1,5 +1,5 @@
 from collections import defaultdict
-from text_generate.tokenizer import Tokenizer
+from memebot.text_generate.tokenizer import Tokenizer
 import random
 
 class ProbabilityDistribution():
