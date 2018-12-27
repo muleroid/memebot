@@ -45,7 +45,25 @@ class MarkovChain():
 			distribution = self.start_token_map[i]
 			distribution.add_word(tokenizer.words[i])
 
-	def get_next_word(self, tokens):
+	def generate_tweet(self):
+		words = self._get_start_tokens()
+		cur_len = 0
+		for word in words:
+			cur_len += len(words) + 1
+		i = 0
+		while True:
+			tokens = tuple(words[idx] for idx in range(i, i + self.order))
+			next_word = self._get_next_word(tokens)
+			if next_word is None:
+				break
+			cur_len += len(next_word) + 1
+			if cur_len > 140:
+				break
+			words.append(next_word)
+			i += 1
+		return ' '.join(words)
+
+	def _get_next_word(self, tokens):
 		"""
 		Given tokens, returns the next word given
 		the weighted distribution of the current state
@@ -55,9 +73,9 @@ class MarkovChain():
 		distribution = self.token_map[tokens]
 		return distribution.get()
 
-	def get_start_phrase(self):
+	def _get_start_tokens(self):
 		words = []
 		for i in range(self.order):
 			words.append(self.start_token_map[i].get())
 
-		return ' '.join(words)
+		return words

@@ -6,7 +6,6 @@ class TweetHelper():
     Helper class for accessing Twitter APIs. Takes care
     of oauth business.
     """
-
     def __init__(self, client_key, client_secret, resource_owner_key, resource_owner_secret):
         self.oauth = OAuth1Session(
             client_key,
