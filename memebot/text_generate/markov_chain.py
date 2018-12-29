@@ -35,7 +35,7 @@ class MarkovChain():
     """
     def __init__(self, n: int=1):
         self.token_map = defaultdict(ProbabilityDistribution)  # type: Dict[Any, ProbabilityDistribution]
-        self.start_token_map = defaultdict(ProbabilityDistribution)  # type: Dict[int, ProbabilityDistribution]
+        self.start_tokens = []  # type: List[Tuple]
         self.order = n
 
     def parse_string(self, s: str) -> None:
@@ -46,9 +46,7 @@ class MarkovChain():
             distribution.add_word(word)
 
         # fill in starter words
-        for i in range(self.order):
-            distribution = self.start_token_map[i]
-            distribution.add_word(tokenizer.words[i])
+        self.start_tokens.append(tuple(tokenizer.words[i] for i in range(self.order)))
 
     def generate_tweet(self) -> str:
         words = self._get_start_tokens()
@@ -78,9 +76,7 @@ class MarkovChain():
         distribution = self.token_map[tokens]
         return distribution.get()
 
-    def _get_start_tokens(self) -> List:
-        words = []
-        for i in range(self.order):
-            words.append(self.start_token_map[i].get())
+    def _get_start_tokens(self) -> List[str]:
+        idx = int(random.random() * len(self.start_tokens))
 
-        return words
+        return list(self.start_tokens[idx])

@@ -1,6 +1,6 @@
 import json
 from requests_oauthlib import OAuth1Session
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 class TweetHelper():
     """
@@ -19,12 +19,28 @@ class TweetHelper():
             resource_owner_secret=resource_owner_secret
         )
 
-    def search_tweets(self, username: str) -> Dict[str, Any]:
+    def search_tweets(self,
+                      query: str,
+                      full_range: bool = False,
+                      from_date: Optional[str] = None,
+                      to_date: Optional[str] = None,
+                      next_pointer: Optional[str] = None) -> Dict[str, Any]:
+        params = {
+            'query': query,
+        }
+        if from_date:
+            params['fromDate'] = from_date
+        if to_date:
+            params['toDate'] = to_date
+        if next_pointer:
+            params['next'] = next_pointer
+        if full_range:
+            product = 'fullarchive'
+        else:
+            product = '30day'
         r = self.oauth.get(
-            'https://api.twitter.com/1.1/tweets/search/30day/dev.json',
-            params={
-                'query': 'from:{}'.format(username),
-            })
+            f'https://api.twitter.com/1.1/tweets/search/{product}/dev.json',
+            params=params)
         if r.status_code != 200:
-            raise RuntimeError
+            raise RuntimeError(f'Error: Search endpoint returned {r.status_code}')
         return json.loads(r.content)
