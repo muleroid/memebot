@@ -44,3 +44,13 @@ class TweetHelper():
         if r.status_code != 200:
             raise RuntimeError(f'Error: Search endpoint returned {r.status_code}')
         return json.loads(r.content)
+
+    def post_tweet(self, content: str) -> None:
+        r = self.oauth.post(
+            'https://api.twitter.com/1.1/statuses/update.json',
+            data={
+                'status': content,
+            },
+        )
+        if r.status_code != 200:
+            raise RuntimeError
