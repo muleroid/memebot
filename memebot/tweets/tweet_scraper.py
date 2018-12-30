@@ -1,12 +1,17 @@
 from delorean import epoch
 from typing import List
+import os
 
 from memebot.tweets.tweet_helper import TweetHelper
 
 class TweetScraper():
-    def __init__(self, tweet_helper: TweetHelper):
-        # TODO: replace with automated way of fetching credentials
-        self.tweet_helper = tweet_helper
+    def __init__(self):
+        self.tweet_helper = TweetHelper(
+            client_key=os.environ['MEMEBOT_CLIENT_KEY'],
+            client_secret=os.environ['MEMEBOT_CLIENT_SECRET'],
+            resource_owner_key=os.environ['MEMEBOT_RESOURCE_OWNER_KEY'],
+            resource_owner_secret=os.environ['MEMEBOT_RESOURCE_OWNER_SECRET'],
+        )
 
     def scrape_tweets(self, username: str, from_ms: int, to_ms: int) -> List[str]:
         tweets = []
@@ -29,3 +34,6 @@ class TweetScraper():
     def _convert_ms_to_string(self, timestamp: int) -> str:
         dt = epoch(timestamp / 1000)
         return dt.format_datetime('YYYYMMddhhmm')
+
+
+tweet_scraper = TweetScraper()
