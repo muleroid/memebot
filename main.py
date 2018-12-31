@@ -3,7 +3,7 @@ from typing import List
 import json
 
 from memebot.tweets.tweet_scraper import tweet_scraper
-from memebot.utils import get_project_id
+from memebot.utils import get_project_id, is_running_on_app_engine
 
 
 SECRET_SAUCE = ['dril', 'sosadtoday', 'PakaluPapitio']
@@ -23,7 +23,10 @@ def get_tweets(username):
 
 @app.get('/')
 def get():
-    return json.dumps({'project_id': get_project_id()})
+    return json.dumps({
+        'project_id': get_project_id(),
+        'is_app_engine': is_running_on_app_engine(),
+    })
 
 
 if __name__ == '__main__':

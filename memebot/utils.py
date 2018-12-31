@@ -1,4 +1,5 @@
 import requests
+import os
 
 
 METADATA_HEADERS = {
@@ -11,3 +12,8 @@ def get_project_id():
     if r.status_code != 200:
         raise RuntimeError(f'Got an error requesting metadata [{r.status_code}]: {r.text}')
     return r.text
+
+
+def is_running_on_app_engine():
+    env = os.environ.get('SERVER_SOFTWARE', '')
+    return env.startswith('Google App Engine')
