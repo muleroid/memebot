@@ -11,12 +11,14 @@ cachetools==3.0.0         # via google-auth
 certifi==2018.11.29       # via requests
 chardet==3.0.4            # via requests
 delorean==1.0.0
-google-api-core[grpc]==1.7.0  # via google-cloud-core, google-cloud-datastore
+google-api-core[grpc]==1.7.0  # via google-cloud-core, google-cloud-datastore, google-cloud-storage
 google-api-python-client==1.7.7
 google-auth-httplib2==0.0.3  # via google-api-python-client
 google-auth==1.6.2        # via google-api-core, google-api-python-client, google-auth-httplib2
-google-cloud-core==0.29.1  # via google-cloud-datastore
+google-cloud-core==0.29.1  # via google-cloud-datastore, google-cloud-storage
 google-cloud-datastore==1.7.3
+google-cloud-storage==1.13.2
+google-resumable-media==0.3.2  # via google-cloud-storage
 googleapis-common-protos==1.5.5  # via google-api-core
 grpcio==1.17.1            # via google-api-core
 httplib2==0.12.0          # via google-api-python-client, google-auth-httplib2
@@ -31,7 +33,7 @@ pytz==2018.7              # via babel, delorean, google-api-core, tzlocal
 requests-oauthlib==1.0.0
 requests==2.21.0          # via google-api-core, requests-oauthlib
 rsa==4.0                  # via google-auth
-six==1.12.0               # via google-api-core, google-api-python-client, google-auth, grpcio, protobuf, python-dateutil
+six==1.12.0               # via google-api-core, google-api-python-client, google-auth, google-resumable-media, grpcio, protobuf, python-dateutil
 tzlocal==1.5.1            # via delorean
 uritemplate==3.0.0        # via google-api-python-client
 urllib3==1.24.1           # via requests
