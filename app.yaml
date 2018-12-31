@@ -1,0 +1,3 @@
+runtime: python37
+
+entrypoint: python -m memebot.app

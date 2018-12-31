@@ -2,15 +2,16 @@ from delorean import epoch
 from typing import List
 import os
 
+from memebot.credentials.gcs_credentials_provider import GCSCredentialsProvider
 from memebot.tweets.tweet_helper import TweetHelper
 
 class TweetScraper():
-    def __init__(self):
+    def __init__(self, credentials_provider):
         self.tweet_helper = TweetHelper(
-            client_key=os.environ['MEMEBOT_CLIENT_KEY'],
-            client_secret=os.environ['MEMEBOT_CLIENT_SECRET'],
-            resource_owner_key=os.environ['MEMEBOT_RESOURCE_OWNER_KEY'],
-            resource_owner_secret=os.environ['MEMEBOT_RESOURCE_OWNER_SECRET'],
+            client_key=credentials_provider.client_key,
+            client_secret=credentials_provider.client_secret,
+            resource_owner_key=credentials_provider.resource_owner_key,
+            resource_owner_secret=credentials_provider.resource_owner_secret,
         )
 
     def scrape_tweets(self, username: str, from_ms: int, to_ms: int) -> List[str]:
@@ -36,4 +37,4 @@ class TweetScraper():
         return dt.format_datetime('YYYYMMddhhmm')
 
 
-tweet_scraper = TweetScraper()
+tweet_scraper = TweetScraper(GCSCredentialsProvider())
