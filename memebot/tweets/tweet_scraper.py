@@ -14,13 +14,13 @@ class TweetScraper():
             resource_owner_secret=credentials_provider.resource_owner_secret,
         )
 
-    def scrape_tweets(self, username: str, from_ms: int, to_ms: int) -> List[str]:
+    def scrape_tweets(self, username: str, from_ms: int, to_ms: int, full_range: bool = False) -> List[str]:
         tweets = []
         next_pointer = None
         while True:
             result = self.tweet_helper.search_tweets(
                 query=f'from:{username} -has:media -has:videos -has:links -has:mentions',
-                full_range=True,
+                full_range=full_range,
                 from_date=self._convert_ms_to_string(from_ms),
                 to_date=self._convert_ms_to_string(to_ms),
                 next_pointer=next_pointer,
