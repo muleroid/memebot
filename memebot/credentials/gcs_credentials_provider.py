@@ -8,7 +8,7 @@ class GCSCredentialsProvider():
     """
     def __init__(self):
         self.client = Client()
-        bucket_name = os.environ.get('BUCKET_NAME', 'memebot-227201')
+        bucket_name = os.environ.get('BUCKET_NAME', 'memebot-227201.appspot.com')
         self.bucket = self.client.get_bucket(bucket_name)
         self.client_key = self._read_gcs_file('client_key')
         self.client_secret = self._read_gcs_file('client_secret')
@@ -19,5 +19,5 @@ class GCSCredentialsProvider():
         filepath = os.path.join('twitter', filename)
 
         blob = self.bucket.get_blob(filepath)
-        contents = blob.download_as_string().strip()
+        contents = blob.download_as_string().decode('utf-8').strip()
         return contents
