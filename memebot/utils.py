@@ -15,5 +15,5 @@ def get_project_id():
 
 
 def is_running_on_app_engine():
-    env = os.environ.get('SERVER_SOFTWARE', '')
-    return env.startswith('Google App Engine')
+    env = os.environ.get('NODE_ENV', '')
+    return env == 'production'

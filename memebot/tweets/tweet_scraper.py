@@ -3,7 +3,9 @@ from typing import List
 import os
 
 from memebot.credentials.gcs_credentials_provider import GCSCredentialsProvider
+from memebot.credentials.local_credentials_provider import LocalCredentialsProvider
 from memebot.tweets.tweet_helper import TweetHelper
+from memebot.utils import is_running_on_app_engine
 
 class TweetScraper():
     def __init__(self, credentials_provider):
@@ -37,4 +39,7 @@ class TweetScraper():
         return dt.format_datetime('YYYYMMddhhmm')
 
 
-tweet_scraper = TweetScraper(GCSCredentialsProvider())
+if is_running_on_app_engine():
+    tweet_scraper = TweetScraper(GCSCredentialsProvider())
+else:
+    tweet_scraper = TweetScraper(LocalCredentialsProvider())
