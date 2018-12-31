@@ -1,6 +1,5 @@
 import os
 
-from google.appengine.api import app_identity
 from google.cloud.storage.client import Client
 
 class GCSCredentialsProvider():
@@ -9,7 +8,7 @@ class GCSCredentialsProvider():
     """
     def __init__(self):
         self.client = Client()
-        bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
+        bucket_name = os.environ.get('BUCKET_NAME', 'memebot-227201')
         self.bucket = self.client.get_bucket(bucket_name)
         self.client_key = self._read_gcs_file('client_key')
         self.client_secret = self._read_gcs_file('client_secret')
