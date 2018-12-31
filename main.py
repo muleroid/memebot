@@ -18,7 +18,7 @@ def get_tweets(username):
     full_archive = request.query.get('full_archive', default=False, type=bool)
 
     tweets = tweet_scraper.scrape_tweets(username, start_time_ms, end_time_ms, full_archive)
-    return json.dumps({'tweets': tweets})
+    return json.dumps({'tweets': [tweet.to_dict() for tweet in tweets]})
 
 
 @app.get('/')

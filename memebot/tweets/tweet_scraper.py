@@ -4,6 +4,7 @@ import os
 
 from memebot.credentials.gcs_credentials_provider import GCSCredentialsProvider
 from memebot.credentials.local_credentials_provider import LocalCredentialsProvider
+from memebot.models.tweet import Tweet
 from memebot.tweets.tweet_helper import TweetHelper
 from memebot.utils import is_running_on_app_engine
 
@@ -16,7 +17,7 @@ class TweetScraper():
             resource_owner_secret=credentials_provider.resource_owner_secret,
         )
 
-    def scrape_tweets(self, username: str, from_ms: int, to_ms: int, full_range: bool = False) -> List[str]:
+    def scrape_tweets(self, username: str, from_ms: int, to_ms: int, full_range: bool = False) -> List[Tweet]:
         tweets = []
         next_pointer = None
         while True:
@@ -28,7 +29,7 @@ class TweetScraper():
                 next_pointer=next_pointer,
             )
             results = result['results']
-            tweets.extend(tweet['text'] for tweet in results)
+            tweets.extend(Tweet.from_tweet_json(tweet) for tweet in results)
             next_pointer = result.get('next')
             if not next_pointer:
                 break
