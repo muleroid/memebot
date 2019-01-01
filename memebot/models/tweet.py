@@ -34,7 +34,7 @@ class Tweet():
             id=source.get('id'),
             text=source.get('text'),
             user_id=source.get('user_id'),
-            username=source.get('user_id'),
+            username=source.get('username'),
             created_at_ms=source.get('created_at_ms'),
         )
 

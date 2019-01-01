@@ -35,5 +35,11 @@ class TweetService():
         results = query.get()
         return [Tweet.from_dict(result) for result in results]
 
+    def get_tweets_by_range(self, start_time_ms: int = 0, end_time_ms: int = 0) -> List[Tweet]:
+        query = self.client.collection('tweets').where('created_at_ms', '>=', start_time_ms) \
+            .where('created_at_ms', '<=', end_time_ms)
+        results = query.get()
+        return [Tweet.from_dict(result) for result in results]
+
 
 tweet_service = TweetService()
