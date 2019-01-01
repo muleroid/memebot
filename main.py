@@ -2,6 +2,7 @@ from bottle import Bottle, get, request, run
 from typing import List
 import json
 
+from memebot.services.tweet_service import tweet_service
 from memebot.tweets.tweet_scraper import tweet_scraper
 from memebot.utils import get_project_id, is_running_on_app_engine
 
@@ -15,9 +16,8 @@ app = Bottle()
 def get_tweets(username):
     start_time_ms = request.query.get('start_time_ms', default=None, type=int)
     end_time_ms = request.query.get('end_time_ms', default=None, type=int)
-    full_archive = request.query.get('full_archive', default=False, type=bool)
 
-    tweets = tweet_scraper.scrape_tweets(username, start_time_ms, end_time_ms, full_archive)
+    tweets = tweet_service.get_tweets_by_username_and_range(username, start_time_ms, end_time_ms)
     return json.dumps({'tweets': [tweet.to_dict() for tweet in tweets]})
 
 
