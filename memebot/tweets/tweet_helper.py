@@ -2,6 +2,12 @@ import json
 from requests_oauthlib import OAuth1Session
 from typing import Any, Dict, Optional
 
+from memebot.utils import get_logger
+
+
+logger = get_logger(__name__)
+
+
 class TweetHelper():
     """
     Helper class for accessing Twitter APIs. Takes care
@@ -38,11 +44,12 @@ class TweetHelper():
             product = 'fullarchive'
         else:
             product = '30day'
+        logger.info(f'Querying Twitter: {json.dumps(params)}')
         r = self.oauth.get(
             f'https://api.twitter.com/1.1/tweets/search/{product}/dev.json',
             params=params)
         if r.status_code != 200:
-            raise RuntimeError(f'Error: Search endpoint returned {r.status_code}')
+            raise RuntimeError(f'Error: Search endpoint returned {r.status_code}: {r.text}')
         return json.loads(r.content)
 
     def post_tweet(self, content: str) -> None:
@@ -53,4 +60,4 @@ class TweetHelper():
             },
         )
         if r.status_code != 200:
-            raise RuntimeError
+            raise RuntimeError(f'Error: Failed to post tweet {r.status_code}: {r.text}')

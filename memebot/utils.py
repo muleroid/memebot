@@ -1,3 +1,4 @@
+import logging
 import requests
 import os
 
@@ -16,3 +17,15 @@ def get_project_id() -> bool:
 
 def is_running_on_app_engine() -> bool:
     return os.environ.get('IS_GAE')
+
+
+def get_logger(name: str, log_level: str = logging.INFO) -> logging.Logger:
+    logger = logging.getLogger(name)
+    logger.setLevel(log_level)
+    handler = logging.StreamHandler()
+    handler.setLevel(log_level)
+    formatter = logging.Formatter('[{levelname}] {asctime}: {message}', style='{')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+    return logger

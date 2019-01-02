@@ -37,7 +37,7 @@ class TweetScraper():
 
     def _convert_ms_to_string(self, timestamp: int) -> str:
         dt = epoch(timestamp / 1000)
-        return dt.format_datetime('YYYYMMddhhmm')
+        return dt.format_datetime('YYYYMMddHHmm')
 
 
 if is_running_on_app_engine():
