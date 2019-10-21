@@ -4,7 +4,6 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-
 babel==2.6.0              # via delorean
 bottle==0.12.16
 cachetools==3.0.0         # via google-auth
@@ -36,4 +35,4 @@ rsa==4.0                  # via google-auth
 six==1.12.0               # via google-api-core, google-api-python-client, google-auth, google-resumable-media, grpcio, protobuf, python-dateutil
 tzlocal==1.5.1            # via delorean
 uritemplate==3.0.0        # via google-api-python-client
-urllib3==1.24.1           # via requests
+urllib3==1.24.2           # via requests
