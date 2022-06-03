@@ -1,4 +1,4 @@
-bottle==0.12.16
+bottle==0.12.20
 delorean==1.0.0
 google-api-python-client==1.7.7
 google-cloud-firestore==0.31.0
